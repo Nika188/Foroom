@@ -47,7 +47,18 @@ fun ViewInteraction.waitUntilVisible(timeoutSec: Long): ViewInteraction {
 
     throw TimeoutException()
 }
+fun ViewInteraction.waitUntilMatches(matcher: Matcher<View>, timeoutSec: Long): ViewInteraction {
+    val endTime = System.currentTimeMillis() + timeoutSec * 1000
 
+    while (true) {
+        try {
+            return check(matches(matcher))
+        } catch (error: Throwable) {
+            if (System.currentTimeMillis() >= endTime) throw error
+            Thread.sleep(50)
+        }
+    }
+}
 /**
  * Input Text on View
  */
