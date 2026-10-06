@@ -9,12 +9,24 @@ import com.example.foroom.Helper.input
 import com.example.foroom.Helper.tap
 import com.example.foroom.Helper.waitUntilMatches
 import com.example.foroom.data.Constants
+import com.example.foroom.domain.model.request.RegistrationRequest
+import com.example.foroom.domain.usecase.RegisterUserUseCase
 import com.example.foroom.pages.RegistrationPage
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.koin.core.context.GlobalContext
 
 class RegistrationSteps {
     private val registrationPage = RegistrationPage()
+
+    fun createAccount(userName: String, password: String, avatarId: Int) = apply {
+        runBlocking {
+            GlobalContext.get().get<RegisterUserUseCase>()(
+                RegistrationRequest(userName, password, avatarId)
+            )
+        }
+    }
 
     fun checkRegistrationScreenIsDisplayed() = apply {
         with(registrationPage) {
