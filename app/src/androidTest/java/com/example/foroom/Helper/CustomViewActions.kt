@@ -59,12 +59,31 @@ fun ViewInteraction.waitUntilMatches(matcher: Matcher<View>, timeoutSec: Long): 
         }
     }
 }
+
+fun ViewInteraction.tapUntilGone(leftScreenView: Matcher<View>, timeoutSec: Long) {
+    val endTime = System.currentTimeMillis() + timeoutSec * 1000
+
+    while (true) {
+        try {
+            perform(click())
+        } catch (_: Exception) {
+        }
+
+        try {
+            onView(leftScreenView).check(ViewAssertions.doesNotExist())
+            return
+        } catch (error: Throwable) {
+            if (System.currentTimeMillis() >= endTime) throw error
+            Thread.sleep(50)
+        }
+    }
+}
+
 /**
  * Input Text on View
  */
 fun ViewInteraction.input(inputText: String) {
     waitUntilVisible(3)
-    tap()
     perform(replaceText(inputText), closeSoftKeyboard())
 }
 

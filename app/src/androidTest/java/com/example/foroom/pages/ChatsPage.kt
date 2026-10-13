@@ -1,6 +1,7 @@
 package com.example.foroom.pages
 
 import android.view.View
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -21,4 +22,6 @@ class ChatsPage {
         withText(chatName),
         isDescendantOfA(chatsRecyclerView)
     )
+    fun chatCardOpenButton(chatName: String): Matcher<View> =
+        allOf(withId(DesignR.id.sendMessageButton), hasSibling(chatCardTitle(chatName)))
 }

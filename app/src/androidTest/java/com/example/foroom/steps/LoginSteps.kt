@@ -42,6 +42,12 @@ class LoginSteps {
         onView(loginPage.logInButton).tap()
     }
 
+    fun logIn(userName: String, password: String) = apply {
+        enterUserName(userName)
+        enterPassword(password)
+        submitLogin()
+    }
+
     fun openRegistration() = apply {
         onView(loginPage.signUpButton).tap()
     }

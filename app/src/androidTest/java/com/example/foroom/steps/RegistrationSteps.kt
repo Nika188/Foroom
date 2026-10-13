@@ -9,7 +9,9 @@ import com.example.foroom.Helper.input
 import com.example.foroom.Helper.tap
 import com.example.foroom.Helper.waitUntilMatches
 import com.example.foroom.data.Constants
+import com.example.foroom.domain.model.request.LogInRequest
 import com.example.foroom.domain.model.request.RegistrationRequest
+import com.example.foroom.domain.usecase.LogInUserUseCase
 import com.example.foroom.domain.usecase.RegisterUserUseCase
 import com.example.foroom.pages.RegistrationPage
 import kotlinx.coroutines.runBlocking
@@ -25,6 +27,16 @@ class RegistrationSteps {
             GlobalContext.get().get<RegisterUserUseCase>()(
                 RegistrationRequest(userName, password, avatarId)
             )
+        }
+    }
+
+    fun ensureAccountExists(userName: String, password: String, avatarId: Int) = apply {
+        runBlocking {
+            runCatching {
+                GlobalContext.get().get<LogInUserUseCase>()(LogInRequest(userName, password))
+            }.onFailure {
+                createAccount(userName, password, avatarId)
+            }
         }
     }
 

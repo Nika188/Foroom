@@ -57,4 +57,8 @@ class ProfileSteps {
         onView(profilePage.changeLanguageLabel)
             .waitUntilMatches(allOf(isDisplayed(), withText(expectedLabel)), Constants.TIMEOUT_SEC)
     }
+
+    fun signOut() = apply {
+        onView(profilePage.signOutItem).tap()
+    }
 }
